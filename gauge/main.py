@@ -5,8 +5,13 @@
 ########################################################################
 import os
 import sys
+import serial
+import chardet
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication
+from PyQt5 import QtCore
+
+from PyQt5.QtCore import QTimer, QPropertyAnimation, QEasingCurve, pyqtProperty
+from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QVBoxLayout, QSlider
 from PyQt5.QtGui import QFont, QFontDatabase
 
 
@@ -21,12 +26,27 @@ os.system("pyuic5 -o interface_ui.py interface.ui")
 ################################################################################################
 from interface_ui import *
 
+
 ################################################################################################
 # MAIN WINDOW CLASS
 ################################################################################################
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self)
+        
+        ########################################################################
+        ## Pyserial setting momen
+        ########################################################################
+                # configure the serial port
+        self.ser = serial.Serial(
+            port='/dev/ttyS0', # replace with the appropriate port name
+            baudrate=9600, # set the baud rate
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            bytesize=serial.EIGHTBITS,
+            timeout=1 # set the timeout value
+        )
+
         ################################################################################################
         # Setup the UI main window
         ################################################################################################
@@ -112,6 +132,61 @@ class MainWindow(QMainWindow):
         ################################################################################################
         ################################################################################################
         self.ui.widget.setMouseTracking(False)
+
+########################################################################
+## Timer momen
+########################################################################
+
+    
+        # create a timer to periodically update the LCD display
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_lcd)
+        self.timer.start(100) # update every 100 milliseconds
+        
+
+
+########################################################################
+## update value momen
+########################################################################
+
+    def update_lcd(self):
+        # read the data from the serial port
+        data = self.ser.readline()
+        if data:
+            # detect the encoding of the data
+            encoding = chardet.detect(data)['encoding']
+            # decode the data using the detected encoding
+            decoded_data = data.decode(encoding).rstrip()
+            # convert the data to a float and display it on the LCD
+            try:
+                value1 = float(decoded_data)
+                #self.ui.widget.value = value1
+                #self.ui.widget.repaint()
+                start_value = self.ui.widget.value
+                self.smooth_update_value(start_value, value1, 10)  # Duration in milliseconds
+                print("Received data: ", value1) # for debugging
+            except ValueError:
+                print("Invalid data format: ", decoded_data) # for debugging
+                pass
+        else:
+            print("No data received") # for debugging
+
+########################################################################
+## smooth update for the value momen
+########################################################################
+
+    def smooth_update_value(self, start_value, end_value, duration):
+        step_count = int(duration / 1)  # Update every 10 milliseconds
+        value_diff = end_value - start_value
+        step_value = value_diff / step_count
+
+        for i in range(step_count):
+            current_value = start_value + (i * step_value)
+            self.ui.widget.setValue(current_value)
+            QApplication.processEvents()
+            QtCore.QThread.msleep(10)
+
+        self.ui.widget.setValue(end_value)
 
 ########################################################################
 ## EXECUTE APP
