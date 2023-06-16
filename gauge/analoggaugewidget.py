@@ -27,7 +27,7 @@ try:
 
     from PyQt5.QtGui import QPolygon, QPolygonF, QColor, QPen, QFont, QPainter, QFontMetrics, QConicalGradient, QRadialGradient, QFontDatabase
 
-    from PyQt5.QtCore import Qt, QTime, QTimer, QPoint, QPointF, QRect, QSize, QObject, pyqtSignal
+    from PyQt5.QtCore import Qt, QTime, QTimer, QPoint, QPointF, QRect, QSize, QObject, pyqtSignal, pyqtProperty
 
 except:
     print("Error while importing PyQt5")
@@ -1519,6 +1519,19 @@ class AnalogGaugeWidget(QWidget):
                     self.valueChanged.emit(int(value))
 
                 self.updateValue(value)
+
+########################################################################
+## make the value update automatically momen
+########################################################################
+
+#    def getValue(self):
+#        return self.value
+
+    def setValue(self, value):
+        self.value = value
+        self.repaint()
+
+#    valueProperty = pyqtProperty(float, getValue, setValue)
 
 ################################################################################################
 # END ==>
