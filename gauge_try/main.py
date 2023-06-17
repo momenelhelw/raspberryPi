@@ -154,11 +154,11 @@ class MainWindow(QMainWindow):
                     print("Received data: ", decoded_data) # for debugging
 
                 elif decoded_data.startswith('F'):
-                    self.ui.graphicsView.setStyleSheet(u"color: rgb(157, 157, 157);\n"
+                    self.ui.graphicsView.setStyleSheet(u"background-color: rgb(157, 157, 157);\n"
 "border-image: url(:/light/lightbulb.png);")
 
                 elif decoded_data.startswith('O'):
-                    self.ui.graphicsView.setStyleSheet(u"color: rgb(157, 157, 157);\n"
+                    self.ui.graphicsView.setStyleSheet(u"background-color: rgb(157, 157, 157);\n"
 "border-image: url(:/light/light-bulb-on.png);")
                     print("Received data: ", decoded_data)  # for debugging
 
