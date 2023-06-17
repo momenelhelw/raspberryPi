@@ -8,8 +8,8 @@ import sys
 import serial
 #import chardet
 from PyQt5 import QtCore
-from PyQt5.QtCore import QTimer, QPropertyAnimation, QEasingCurve, pyqtProperty
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QVBoxLayout, QSlider
+from PyQt5.QtCore import QTimer, QPropertyAnimation, QEasingCurve, QDateTime
+from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QVBoxLayout, QSlider, QDateTimeEdit
 from PyQt5.QtGui import QFont, QFontDatabase
 
 ###########################################################################################
@@ -183,10 +183,12 @@ class MainWindow(QMainWindow):
         for i in range(step_count):
             current_value = start_value + (i * step_value)
             self.ui.battery.setValue(current_value)
+            self.ui.progressBar.setValue(current_value)
             QApplication.processEvents()
             QtCore.QThread.msleep(10)
 
         self.ui.battery.setValue(end_value)
+        self.ui.progressBar.setValue(end_value)
 
 #########           tempreture           #########
 
@@ -202,6 +204,10 @@ class MainWindow(QMainWindow):
             QtCore.QThread.msleep(10)
 
         self.ui.temp.setValue(end_value)
+
+##################CLOCK / DATE ########################################
+        self.ui.dateTimeEdit = QDateTimeEdit()
+        self.ui.dateTimeEdit.setDateTime(QDateTime.currentDateTime())
 
 ########################################################################
 ## EXECUTE APP
