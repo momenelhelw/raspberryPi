@@ -358,6 +358,22 @@ p, li { white-space: pre-wrap; }
      <string notr="true">background-color: rgb(130, 130, 130);</string>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>120</y>
+      <width>71</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(157, 157, 157);
+
+border-image: url(:/light/light-bulb-on.png);
+border-image: url(:/light/lightbulb.png);</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
