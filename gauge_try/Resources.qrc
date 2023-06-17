@@ -2,6 +2,10 @@
   <qresource prefix="icons">
     <file>car.png</file>
   </qresource>
+  <qresource prefix="light">
+    <file>light-bulb-on.png</file>
+    <file>lightbulb.png</file>
+  </qresource>
   <qresource prefix="backgrounds">
     <file>1.jpg</file>
     <file>2.jpg</file>

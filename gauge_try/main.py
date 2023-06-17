@@ -6,7 +6,7 @@
 import os
 import sys
 import serial
-#import chardet
+import chardet
 from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer, QPropertyAnimation, QEasingCurve, QDateTime
 from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QVBoxLayout, QSlider, QDateTimeEdit
@@ -122,6 +122,10 @@ class MainWindow(QMainWindow):
 ########################################################################
 
     def update_lcd(self):
+        #this is for current time update for time date
+        self.ui.dateTimeEdit.setDateTime(QDateTime.currentDateTime())
+        #this is for no select the day section of the time date
+        self.ui.dateTimeEdit.setCurrentSection(QDateTimeEdit.NoSection)
         # read the data from the serial port
         data = self.ser.readline()
         if data:
@@ -148,6 +152,15 @@ class MainWindow(QMainWindow):
                     start_value = self.ui.temp.value
                     self.smooth_update_temp_value(start_value, temp_value, 10)  # Duration in milliseconds
                     print("Received data: ", decoded_data) # for debugging
+
+                elif decoded_data.startswith('F'):
+                    self.ui.graphicsView.setStyleSheet(u"color: rgb(157, 157, 157);\n"
+"border-image: url(:/light/lightbulb.png);")
+
+                elif decoded_data.startswith('O'):
+                    self.ui.graphicsView.setStyleSheet(u"color: rgb(157, 157, 157);\n"
+"border-image: url(:/light/light-bulb-on.png);")
+                    print("Received data: ", decoded_data)  # for debugging
 
             except ValueError:
                 print("Invalid data format: ", decoded_data) # for debugging

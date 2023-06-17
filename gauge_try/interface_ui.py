@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDateTimeEdit, QMainWindow,
-    QProgressBar, QSizePolicy, QTextEdit, QWidget)
+from PySide6.QtWidgets import (QAbstractSpinBox, QApplication, QDateTimeEdit, QGraphicsView,
+    QMainWindow, QProgressBar, QSizePolicy, QTextEdit,
+    QWidget)
 
 from analoggaugewidget import AnalogGaugeWidget
 import Resources_rc
@@ -83,7 +84,7 @@ class Ui_MainWindow(object):
         self.dateTimeEdit.setCurrentSectionIndex(0)
         self.Title = QTextEdit(self.centralwidget)
         self.Title.setObjectName(u"Title")
-        self.Title.setGeometry(QRect(340, 10, 451, 101))
+        self.Title.setGeometry(QRect(340, 10, 451, 81))
         font2 = QFont()
         font2.setFamilies([u"Monotype Corsiva"])
         font2.setPointSize(20)
@@ -130,7 +131,7 @@ class Ui_MainWindow(object):
         self.progressBar.setFont(font4)
         self.progressBar.setAutoFillBackground(False)
         self.progressBar.setStyleSheet(u"color: rgb(255, 255, 255);\n"
-"color: rgb(0, 85, 127);")
+"color: rgb(0, 70, 103);")
         self.progressBar.setValue(24)
         self.progressBar.setOrientation(Qt.Horizontal)
         self.progressBar.setInvertedAppearance(False)
@@ -145,6 +146,13 @@ class Ui_MainWindow(object):
         self.textEdit_6.setObjectName(u"textEdit_6")
         self.textEdit_6.setGeometry(QRect(30, 150, 321, 87))
         self.textEdit_6.setStyleSheet(u"background-color: rgb(130, 130, 130);")
+        self.graphicsView = QGraphicsView(self.centralwidget)
+        self.graphicsView.setObjectName(u"graphicsView")
+        self.graphicsView.setGeometry(QRect(1000, 120, 71, 61))
+        self.graphicsView.setStyleSheet(u"background-color: rgb(157, 157, 157);\n"
+"\n"
+"border-image: url(:/light/light-bulb-on.png);\n"
+"border-image: url(:/light/lightbulb.png);")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
